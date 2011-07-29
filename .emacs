@@ -190,18 +190,18 @@ vi style of % jumping to matching brace."
 (require 'ecb)
 (require 'ecb-autoloads)
 
-(custom-set-variables
-  ;; custom-set-variables was added by custom.
-  ;; if you edit it by hand, you could mess it up, so be careful.
-  ;; your init file should contain only one such instance.
-  ;; if there is more than one, they won't work right.
- '(ecb-options-version "2.40")
- '(ecb-source-path (quote (("/home/hyungchan/android/external/webkit" "webkit")))))
+;; (custom-set-variables
+;;   ;; custom-set-variables was added by custom.
+;;   ;; if you edit it by hand, you could mess it up, so be careful.
+;;   ;; your init file should contain only one such instance.
+;;   ;; if there is more than one, they won't work right.
+;;  '(ecb-options-version "2.40")
+;;  '(ecb-source-path (quote (("/home/hyungchan/android/external/webkit" "webkit")))))
 (custom-set-faces
-  ;; custom-set-faces was added by custom.
-  ;; if you edit it by hand, you could mess it up, so be careful.
-  ;; your init file should contain only one such instance.
-  ;; if there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  )
 
 ;; ecb window hotkey
@@ -243,3 +243,16 @@ vi style of % jumping to matching brace."
 (require 'gtags)
 (autoload 'gtags-mode "gtags" "" t)
 (global-set-key (kbd "C-c C-f") 'gtags-find-file)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; git-emacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/.emacs.d/git-emacs")
+(require 'git-emacs)
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(ecb-options-version "2.40"))
