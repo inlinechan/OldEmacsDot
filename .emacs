@@ -217,6 +217,9 @@ vi style of % jumping to matching brace."
 ;; switch h <-> cpp
 (global-set-key (kbd "M-p") 'eassist-switch-h-cpp)
 
+;; global regexp search
+(global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; android webkit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
