@@ -20,23 +20,27 @@
           (lambda () 
             (c-set-style "bsd")
             (setq default-tab-width 4)
-            (setq c-basic-offset 4)         ;; indent use only 2 blank
-            ;; (setq indent-tabs-mode nil)     ;; no tab
+            (setq c-basic-offset 4)
             ))
 
 (add-hook 'c++-mode-hook '
           (lambda () 
             (c-set-style "bsd")
             (setq default-tab-width 4)
-            (setq c-basic-offset 4)         ;; indent use only 2 blank
-            ;; (setq indent-tabs-mode nil)     ;; no tab
+            (setq c-basic-offset 4)
+            ))
+
+(add-hook 'java-mode-hook '
+          (lambda () 
+            (setq default-tab-width 4)
+            (setq c-basic-offset 4)
             ))
 
 ;; python also hate tab ( using 4 space instead )
 (add-hook 'python-mode-hook '
-		  (lambda ()
+          (lambda ()
             (setq default-tab-width 4)
-            ;; (setq indent-tabs-mode nil)     ;; no tab
+            (setq c-basic-offset 4)
             ))
 
 ;; no splash
@@ -48,8 +52,8 @@
 
 ;; tab width
 (setq default-tab-width 4)
-(setq c-basic-offset 4)         ;; indent use only 2 blank
-(setq indent-tabs-mode nil)     ;; no tab
+(setq c-basic-offset 4)                 ;; indent use only 4 spaces
+(setq-default indent-tabs-mode nil)     ;; no tab
 
 ;; parenthesis matching
 ;; http://www.emacswiki.org/cgi-bin/wiki/parenthesismatching
@@ -110,7 +114,7 @@ vi style of % jumping to matching brace."
 ;; css-mode
 (autoload 'css-mode "css-mode-simple")
 (setq auto-mode-alist       
-	  (cons '("\\.css\\'" . css-mode) auto-mode-alist))
+      (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
 ;; javascirpt-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
@@ -126,17 +130,20 @@ vi style of % jumping to matching brace."
 
 ;; makefile
 (setq auto-mode-alist       
-	  (cons '("\\.min\\'" . makefile-mode) auto-mode-alist))
+      (cons '("\\.min\\'" . makefile-mode) auto-mode-alist))
 (setq auto-mode-alist       
-	  (cons '("\\.mak\\'" . makefile-mode) auto-mode-alist))
+      (cons '("\\.mak\\'" . makefile-mode) auto-mode-alist))
 (setq auto-mode-alist       
-	  (cons '("\\.make\\'" . makefile-mode) auto-mode-alist))
+      (cons '("\\.make\\'" . makefile-mode) auto-mode-alist))
 
 ;; perl mode
 (add-to-list 'auto-mode-alist '("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
+
+;; ediff
+(setq ediff-split-window-function 'split-window-horizontally)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; cedet
@@ -198,10 +205,10 @@ vi style of % jumping to matching brace."
 ;;  '(ecb-options-version "2.40")
 ;;  '(ecb-source-path (quote (("/home/hyungchan/android/external/webkit" "webkit")))))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 
 ;; ecb window hotkey
@@ -224,21 +231,21 @@ vi style of % jumping to matching brace."
 ;; android webkit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(ede-cpp-root-project "androidwebkit"
-					  :name "android webkit"
-					  :file "~/android/allfiles"
-					  :include-path '("~/android/external/webkit"
-									  "~/android/external/skia"
-									  "~/android/frameworks/base/core/java/android")
-					  ;; :include-path '("/"
-					  ;; 				  "/common"
-					  ;; 				  "/interfaces"
-					  ;; 				  "/libs"
-					  ;; 				  )
-					  ;; :system-include-path '("~/exp/include")
-					  ;; :spp-table '(("isunix" . "")
-					  ;; 			   ("boost_test_dyn_link" . ""))
-					  )
+;; (ede-cpp-root-project "androidwebkit"
+;;                       :name "android webkit"
+;;                       :file "~/android/allfiles"
+;;                       :include-path '("~/android/external/webkit"
+;;                                       "~/android/external/skia"
+;;                                       "~/android/frameworks/base/core/java/android")
+;;                       ;; :include-path '("/"
+;;                       ;;                  "/common"
+;;                       ;;                  "/interfaces"
+;;                       ;;                  "/libs"
+;;                       ;;                  )
+;;                       ;; :system-include-path '("~/exp/include")
+;;                       ;; :spp-table '(("isunix" . "")
+;;                       ;;               ("boost_test_dyn_link" . ""))
+;;                       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; gtags
@@ -254,8 +261,8 @@ vi style of % jumping to matching brace."
 (require 'git-emacs)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ecb-options-version "2.40"))
