@@ -15,33 +15,26 @@
 (setq default-major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-;; c-mode,c++-mode coding style bsd
+(defun notab ()
+  "use 4 spaces instead of tab and also use spaces for indentation"
+  (setq default-tab-width 4)
+  (setq c-basic-offset 4)               ;; indent use only 4 blanks
+  (setq indent-tabs-mode nil)           ;; no tab
+  )  
+ 
+(add-hook 'c-mode-hook 'notab)
 (add-hook 'c-mode-hook '
-          (lambda () 
-            (c-set-style "bsd")
-            (setq default-tab-width 4)
-            (setq c-basic-offset 4)
-            ))
-
+          (lambda () (c-set-style "bsd")))
+(add-hook 'c++-mode-hook 'notab)
 (add-hook 'c++-mode-hook '
-          (lambda () 
-            (c-set-style "bsd")
-            (setq default-tab-width 4)
-            (setq c-basic-offset 4)
-            ))
+          (lambda () (c-set-style "bsd")))
 
-(add-hook 'java-mode-hook '
-          (lambda () 
-            (setq default-tab-width 4)
-            (setq c-basic-offset 4)
-            ))
-
-;; python also hate tab ( using 4 space instead )
-(add-hook 'python-mode-hook '
-          (lambda ()
-            (setq default-tab-width 4)
-            (setq c-basic-offset 4)
-            ))
+(add-hook 'jave-mode-hook 'notab)
+(add-hook 'css-mode-hook 'notab)
+(add-hook 'python-mode-hook 'notab)
+(add-hook 'perl-mode-hook 'notab)
+(add-hook 'cperl-mode-hook 'notab)
+(add-hook 'emacs-lisp-mode-hook 'notab)
 
 ;; no splash
 (setq inhibit-startup-message t)
