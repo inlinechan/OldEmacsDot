@@ -27,11 +27,15 @@
 (defvar section-notab t)
 (defvar section-automodehook t)
 (defvar section-cedet t)
-(defvar section-gitemacs t)
+
+;; git
+(defvar section-gitemacs nil)
+(defvar section-magit t)
+
 (defvar section-gtags t)
 
 (defvar section-flymake nil)
-(defvar section-w3m nil)
+(defvar section-w3m t)
 
 (defvar project-webkit nil)
 
@@ -135,7 +139,12 @@ vi style of % jumping to matching brace."
 	  (setq-default save-place t)
 
 	  ;; ediff
-	  (setq ediff-split-window-function 'split-window-horizontally)
+      ;; http://www.emacswiki.org/emacs/EdiffMode
+      (setq ediff-split-window-function (lambda (&optional arg)
+                                          (if (> (frame-width) 150)
+                                              (split-window-horizontally arg)
+                                            (split-window-vertically arg))))
+	  ;; (setq ediff-split-window-function 'split-window-horizontally)
 
 	  (message "General... done"))
 ;; **
@@ -355,7 +364,7 @@ vi style of % jumping to matching brace."
 	  (message "project-webkit... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; gtags
+;; ** gtags
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when section-gtags (message "gtags...")
 	  (require 'gtags)
@@ -371,3 +380,19 @@ vi style of % jumping to matching brace."
 	  (add-to-list 'load-path "~/.emacs.d/git-emacs")
 	  (require 'git-emacs)
 	  (message "gitemacs..."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ** magit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-magit (message "magit...")
+	  (add-to-list 'load-path "~/.emacs.d/magit/")
+	  (require 'magit)
+	  (message "magit..."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ** w3m
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-w3m (message "w3m...")
+      (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-w3m-1.4.4") load-path))
+      (require 'w3m-load)
+	  (message "w3m..."))
