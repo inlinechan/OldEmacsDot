@@ -35,7 +35,7 @@
 (defvar section-gtags t)
 
 (defvar section-flymake nil)
-(defvar section-w3m t)
+(defvar section-w3m nil)
 
 (defvar project-webkit nil)
 
@@ -218,6 +218,13 @@ vi style of % jumping to matching brace."
 
 	  (global-set-key (kbd "M-]") 'goto-match-paren)  ;; goto matching parenthesis
 
+      ;; find from current dir
+      (global-set-key (kbd "C-c C-g") 'find-name-dired)
+      ;; ask dir to find before 
+      (global-set-key (kbd "C-c C-h") 'find-grep-dired
+
+      (global-set-key (kbd "C-c g") 'grep-find)
+
 	  ;; execute the shell buffer in utf-8 encoding.
 	  ;; (defun unicode-shell ()
 	  ;;   "execute the shell buffer in utf-8 encoding.
@@ -393,6 +400,6 @@ vi style of % jumping to matching brace."
 ;; ** w3m
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when section-w3m (message "w3m...")
-      (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-w3m-1.4.4") load-path))
+      (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-w3m") load-path))
       (require 'w3m-load)
 	  (message "w3m..."))
