@@ -221,7 +221,7 @@ vi style of % jumping to matching brace."
       ;; find from current dir
       (global-set-key (kbd "C-c C-g") 'find-name-dired)
       ;; ask dir to find before 
-      (global-set-key (kbd "C-c C-h") 'find-grep-dired
+      (global-set-key (kbd "C-c C-h") 'find-grep-dired)
 
       (global-set-key (kbd "C-c g") 'grep-find)
 
