@@ -39,6 +39,8 @@
 
 (defvar project-webkit nil)
 
+(defvar section-anything t)
+
 ;;** Environment
 
 (when section-environment (message "Environment...")
@@ -218,12 +220,11 @@ vi style of % jumping to matching brace."
 
 	  (global-set-key (kbd "M-]") 'goto-match-paren)  ;; goto matching parenthesis
 
-      ;; find from current dir
-      (global-set-key (kbd "C-c C-g") 'find-name-dired)
-      ;; ask dir to find before 
-      (global-set-key (kbd "C-c C-h") 'find-grep-dired)
-
-      (global-set-key (kbd "C-c g") 'grep-find)
+      ;; ;; find from current dir
+      ;; (global-set-key (kbd "C-c C-g") 'find-name-dired)
+      ;; ;; ask dir to find before 
+      ;; (global-set-key (kbd "C-c C-h") 'find-grep-dired)
+      ;; (global-set-key (kbd "C-c g") 'grep-find)
 
 	  ;; execute the shell buffer in utf-8 encoding.
 	  ;; (defun unicode-shell ()
@@ -316,6 +317,7 @@ vi style of % jumping to matching brace."
 	  ;; (semantic-load-enable-primary-exuberent-ctags-support)
 	  ;;   add support for using ctags as a backup parser.
 	  ;; (semantic-load-enable-secondary-exuberent-ctags-support)
+      (require 'semanticdb-global)
 
 	  ;; enable srecode (template management) minor-mode.
 	  (global-srecode-minor-mode 1)
@@ -340,11 +342,11 @@ vi style of % jumping to matching brace."
 	  (global-set-key (kbd "M-3") 'ecb-goto-window-methods)
 	  (global-set-key (kbd "M-4") 'ecb-goto-window-history)
 
-	  (global-set-key (kbd "C-c C-e") 'ecb-activate)
+	  ;; (global-set-key (kbd "C-c C-e") 'ecb-activate)
 	  ;; (global-set-key (kbd "C-c C-d") 'ecb-deactivate)
 
 	  ;; global regexp search
-	  (global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
+	  ;; (global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
 
 	  (message "cedet..."))
 
@@ -355,7 +357,7 @@ vi style of % jumping to matching brace."
 
 	  ;; (ede-cpp-root-project "androidwebkit"
 	  ;;                       :name "android webkit"
-	  ;;                       :file "~/android/allfiles"
+	  ;;                       :file "~/android/all.files"
 	  ;;                       :include-path '("~/android/external/webkit"
 	  ;;                                       "~/android/external/skia"
 	  ;;                                       "~/android/frameworks/base/core/java/android")
@@ -377,6 +379,10 @@ vi style of % jumping to matching brace."
 	  (require 'gtags)
 	  (autoload 'gtags-mode "gtags" "" t)
 	  (global-set-key (kbd "C-c C-f") 'gtags-find-file)
+	  (global-set-key (kbd "C-c g f") 'gtags-find-file)
+	  (global-set-key (kbd "C-c g t") 'gtags-find-tag-from-here)
+	  (global-set-key (kbd "C-c g p") 'gtags-find-pattern)
+	  (global-set-key (kbd "C-c g r") 'gtags-find-rtag)
 
 	  (message "gtags... done"))
 
@@ -403,3 +409,15 @@ vi style of % jumping to matching brace."
       (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-w3m") load-path))
       (require 'w3m-load)
 	  (message "w3m..."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ** anything
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-anything (message "anything...")
+      (add-to-list 'load-path "~/.emacs.d/anything-config")
+      (add-to-list 'load-path "~/.emacs.d/anything-config/extensions")
+	  (require 'anything-gtags)
+	  (require 'anything-config))
+
+
+
