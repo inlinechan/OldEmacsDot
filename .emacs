@@ -37,9 +37,10 @@
 (defvar section-flymake nil)
 (defvar section-w3m nil)
 
-(defvar project-webkit nil)
-
 (defvar section-anything t)
+(defvar section-ido t)
+
+(defvar project-webkit nil)
 
 ;;** Environment
 
@@ -224,7 +225,7 @@ vi style of % jumping to matching brace."
       ;; (global-set-key (kbd "C-c C-g") 'find-name-dired)
       ;; ;; ask dir to find before 
       ;; (global-set-key (kbd "C-c C-h") 'find-grep-dired)
-      ;; (global-set-key (kbd "C-c g") 'grep-find)
+      (global-set-key (kbd "C-c g g") 'grep-find)
 
 	  ;; execute the shell buffer in utf-8 encoding.
 	  ;; (defun unicode-shell ()
@@ -392,7 +393,7 @@ vi style of % jumping to matching brace."
 (when section-gitemacs (message "gitemacs...")
 	  (add-to-list 'load-path "~/.emacs.d/git-emacs")
 	  (require 'git-emacs)
-	  (message "gitemacs..."))
+	  (message "gitemacs... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** magit
@@ -400,7 +401,7 @@ vi style of % jumping to matching brace."
 (when section-magit (message "magit...")
 	  (add-to-list 'load-path "~/.emacs.d/magit/")
 	  (require 'magit)
-	  (message "magit..."))
+	  (message "magit... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** w3m
@@ -408,7 +409,7 @@ vi style of % jumping to matching brace."
 (when section-w3m (message "w3m...")
       (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-w3m") load-path))
       (require 'w3m-load)
-	  (message "w3m..."))
+	  (message "w3m... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** anything
@@ -416,8 +417,16 @@ vi style of % jumping to matching brace."
 (when section-anything (message "anything...")
       (add-to-list 'load-path "~/.emacs.d/anything-config")
       (add-to-list 'load-path "~/.emacs.d/anything-config/extensions")
-	  (require 'anything-gtags)
-	  (require 'anything-config))
+	  ;; (require 'anything-gtags)
+      (global-set-key (kbd "C-x a") 'anything)
+	  (require 'anything-config)
+	  (message "anything... done"))
 
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ** ido
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-ido (message "ido...")
+      (setq ido-enable-flex-matching t)
+      (setq ido-everywhere t)
+      (ido-mode 1)
+	  (message "ido... done"))
