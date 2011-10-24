@@ -290,7 +290,10 @@ vi style of % jumping to matching brace."
 	  (load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
 
 	  ;; enable ede (project management) features
-	  (global-ede-mode 1)
+	  (global-ede-mode t)
+
+      (semantic-load-enable-excessive-code-helpers)
+      (require 'semantic-ia)
 
 	  ;; enable ede for a pre-existing c++ project
 	  ;; (ede-cpp-root-project "name" :file "~/myproject/makefile")
@@ -308,7 +311,7 @@ vi style of % jumping to matching brace."
 
 	  ;; * this enables even more coding tools such as intellisense mode
 	  ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
-	  ;; (semantic-load-enable-gaudy-code-helpers)
+	  (semantic-load-enable-gaudy-code-helpers)
 
 	  ;; * this enables the use of exuberent ctags if you have it installed.
 	  ;;   if you use c++ templates or boost, you should not enable it.
@@ -317,8 +320,15 @@ vi style of % jumping to matching brace."
 	  ;;   add support for new languges only via ctags.
 	  ;; (semantic-load-enable-primary-exuberent-ctags-support)
 	  ;;   add support for using ctags as a backup parser.
-	  ;; (semantic-load-enable-secondary-exuberent-ctags-support)
+	  (semantic-load-enable-secondary-exuberent-ctags-support)
+
+      (require 'semanticdb)
+      (global-semanticdb-minor-mode 1)
+
       (require 'semanticdb-global)
+      (semanticdb-enable-gnu-global-databases 'c-mode)
+      (semanticdb-enable-gnu-global-databases 'c++-mode)
+      (semanticdb-enable-gnu-global-databases 'java-mode)
 
 	  ;; enable srecode (template management) minor-mode.
 	  (global-srecode-minor-mode 1)
@@ -347,7 +357,10 @@ vi style of % jumping to matching brace."
 	  ;; (global-set-key (kbd "C-c C-d") 'ecb-deactivate)
 
 	  ;; global regexp search
-	  ;; (global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
+	  (global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
+
+      ;; jump well
+      (global-set-key (kbd "C-c , a") 'semantic-ia-fast-jump)
 
 	  (message "cedet..."))
 
