@@ -212,8 +212,8 @@ vi style of % jumping to matching brace."
 	  (global-set-key (kbd "M-g") 'goto-line)
 
 	  ;; fast move next, previous buffer
-	  (global-set-key (kbd "C-c C-n") 'next-buffer)
-	  (global-set-key (kbd "C-c C-p") 'previous-buffer)
+	  (global-set-key (kbd "C-c n") 'next-buffer)
+	  (global-set-key (kbd "C-c p") 'previous-buffer)
 
 	  ;; (global-set-key "\c-xt" 'goto-line)        ;; goto-line
 	  (global-set-key (kbd "C-c m") 'manual-entry)    ;; manpage
@@ -221,10 +221,10 @@ vi style of % jumping to matching brace."
 
 	  (global-set-key (kbd "M-]") 'goto-match-paren)  ;; goto matching parenthesis
 
-      ;; ;; find from current dir
-      ;; (global-set-key (kbd "C-c C-g") 'find-name-dired)
-      ;; ;; ask dir to find before 
-      ;; (global-set-key (kbd "C-c C-h") 'find-grep-dired)
+      ;; find from current dir
+      (global-set-key (kbd "C-c C-g") 'find-name-dired)
+      ;; ask dir to find before 
+      (global-set-key (kbd "C-c C-h") 'find-grep-dired)
       (global-set-key (kbd "C-c g g") 'grep-find)
 
 	  ;; execute the shell buffer in utf-8 encoding.
@@ -263,7 +263,7 @@ vi style of % jumping to matching brace."
 
 	  (global-set-key (kbd "C-c C-n") 'isearch-forward-at-point)
 
-	  (message "hotkey... done"))
+      (message "hotkey... done"))
 
 (when section-automodehook (message "automodehook...")
 	  ;; css-mode
@@ -309,7 +309,7 @@ vi style of % jumping to matching brace."
 
 	  ;; load cedet.
 	  ;; see cedet/common/cedet.info for configuration details.
-	  (load-file "~/.emacs.d/cedet-1.0/common/cedet.el")
+	  (load-file "~/.emacs.d/cedet-1.0.1/common/cedet.el")
 
 	  ;; enable ede (project management) features
 	  (global-ede-mode t)
@@ -353,7 +353,7 @@ vi style of % jumping to matching brace."
       (semanticdb-enable-gnu-global-databases 'java-mode)
 
 	  ;; enable srecode (template management) minor-mode.
-	  (global-srecode-minor-mode 1)
+	  ;; (global-srecode-minor-mode 1)
 
 	  ;; ecb
 	  (add-to-list 'load-path "~/.emacs.d/ecb-snap")
@@ -419,6 +419,7 @@ vi style of % jumping to matching brace."
 	  (global-set-key (kbd "C-c g t") 'gtags-find-tag-from-here)
 	  (global-set-key (kbd "C-c g p") 'gtags-find-pattern)
 	  (global-set-key (kbd "C-c g r") 'gtags-find-rtag)
+	  (global-set-key (kbd "C-c g l") 'gtags-find-symbol)
 
 	  (message "gtags... done"))
 
@@ -434,6 +435,16 @@ vi style of % jumping to matching brace."
 ;; ** magit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when section-magit (message "magit...")
+
+      ;; http://stackoverflow.com/questions/5748814/how-does-one-disable-vc-git-in-emacs
+      ;; This should disable the backend:
+      ;; (remove-hook 'find-file-hooks 'vc-find-file-hook)
+      ;; you might need a (require 'vc) before the above line to get the timing right. Or perhaps wrap it like so:
+      ;; (eval-after-load "vc" '(remove-hook 'find-file-hooks 'vc-find-file-hook))
+      ;; to get the timing right.
+      (require 'vc)
+      (remove-hook 'find-file-hooks 'vc-find-file-hook)
+
 	  (add-to-list 'load-path "~/.emacs.d/magit/")
 	  (require 'magit)
 	  (message "magit... done"))
