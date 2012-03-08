@@ -40,6 +40,8 @@
 (defvar section-anything t)
 (defvar section-ido t)
 
+(defvar section-dsvn t)
+
 (defvar project-webkit nil)
 
 ;;** Environment
@@ -476,3 +478,13 @@ vi style of % jumping to matching brace."
       (setq ido-everywhere t)
       (ido-mode 1)
 	  (message "ido... done"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ** svn
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-dsvn (message "dsvn...")
+      (autoload 'svn-status "dsvn" "Run `svn status'." t)
+      (autoload 'svn-update "dsvn" "Run `svn update'." t)
+
+      (require 'vc-svn)
+	  (message "dsvn... done"))
