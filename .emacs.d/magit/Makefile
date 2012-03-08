@@ -17,6 +17,7 @@ BATCH=$(EMACS) -batch -q -no-site-file -eval \
 %.elc: %.el
 	$(BATCH) --eval '(byte-compile-file "$<")'
 
+auto: core contrib
 all: core docs contrib
 
 core: $(ELCS) magit.spec magit-pkg.el

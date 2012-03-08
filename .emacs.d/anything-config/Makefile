@@ -12,6 +12,7 @@ ELC			:= $(EL:.el=.elc)
 
 .PHONY: clean batch-compile
 
+auto: all
 all: clean batch-compile
 
 $(ELC): %.elc: %.el

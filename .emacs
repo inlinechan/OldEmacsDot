@@ -261,7 +261,7 @@ vi style of % jumping to matching brace."
               (add-hook 'isearch-mode-hook 'isearch-set-initial-string)
               (isearch-forward regexp-p no-recursive-edit)))))
 
-	  (global-set-key (kbd "C-c C-n") 'isearch-forward-at-point)
+	  (global-set-key (kbd "C-c C-j") 'isearch-forward-at-point)
 
       (message "hotkey... done"))
 
@@ -342,7 +342,7 @@ vi style of % jumping to matching brace."
 	  ;;   add support for new languges only via ctags.
 	  ;; (semantic-load-enable-primary-exuberent-ctags-support)
 	  ;;   add support for using ctags as a backup parser.
-	  (semantic-load-enable-secondary-exuberent-ctags-support)
+	  ;; (semantic-load-enable-secondary-exuberent-ctags-support)
 
       (require 'semanticdb)
       (global-semanticdb-minor-mode 1)

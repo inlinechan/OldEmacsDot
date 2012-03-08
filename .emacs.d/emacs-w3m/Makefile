@@ -30,6 +30,7 @@ PACKAGE = emacs-w3m
 TARBALL = $(PACKAGE)-$(VERSION).tar.gz
 DISTDIR = $(PACKAGE)-$(VERSION)
 
+auto: lisp
 default: all
 
 all: lisp info

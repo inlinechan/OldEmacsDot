@@ -76,6 +76,7 @@ __DOMAKE=$(MAKE) $(MFLAGS) EMACS="$(EMACS)" EMACSFLAGS="$(EMACSFLAGS)" SHELL="$(
 ## Build
 ##
 
+auto: clean-all clean-autoloads ebuild
 all: clean-autoloads packages
 
 bootstrap: clean-all packages

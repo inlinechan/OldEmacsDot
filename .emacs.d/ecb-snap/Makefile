@@ -147,6 +147,7 @@ ecb: $(ecb_LISP_EL)
 	$(EBATCH) -l ecb-compile-script --eval '(ecb-byte-compile t)'
 	@$(RM) ecb-compile-script
 
+auto: clean ecb
 all: ecb online-help
 
 online-help: $(ecb_TEXI)

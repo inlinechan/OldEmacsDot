@@ -11,6 +11,7 @@ EMACS_BATCH=emacs -Q --batch "$(VC_GIT_PATH)" -L .
 
 .PHONY: all compile tags test clean
 
+auto: compile
 all: compile tags test
 
 compile: *.el
