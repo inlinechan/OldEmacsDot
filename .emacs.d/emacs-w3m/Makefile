@@ -1,10 +1,9 @@
-# Generated automatically from Makefile.in by configure.
 INSTALL      = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 prefix       = /usr
-datarootdir  = @datarootdir@
-datadir      = ${prefix}/share
-infodir      = ${prefix}/info
+datarootdir  = ${prefix}/share
+datadir      = ${datarootdir}
+infodir      = ${datarootdir}/info
 lispdir      = $(prefix)/share/emacs/site-lisp/w3m
 srcdir       = .
 PACKAGEDIR   = NONE
@@ -30,9 +29,9 @@ PACKAGE = emacs-w3m
 TARBALL = $(PACKAGE)-$(VERSION).tar.gz
 DISTDIR = $(PACKAGE)-$(VERSION)
 
-auto: lisp
 default: all
 
+auto: lisp
 all: lisp info
 
 all-en: lisp info-en
