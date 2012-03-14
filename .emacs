@@ -151,6 +151,18 @@ vi style of % jumping to matching brace."
                                             (split-window-vertically arg))))
 	  ;; (setq ediff-split-window-function 'split-window-horizontally)
 
+      ;;    If `gdb-many-windows' is non-`nil', then `M-x gdb' displays the
+      ;; following frame layout:
+
+      ;;      +--------------------------------+--------------------------------+
+      ;;      |   GUD buffer (I/O of GDB)      |   Locals/Registers buffer      |
+      ;;      |--------------------------------+--------------------------------+
+      ;;      |   Primary Source buffer        |   I/O buffer for debugged pgm  |
+      ;;      |--------------------------------+--------------------------------+
+      ;;      |   Stack buffer                 |   Breakpoints/Threads buffer   |
+      ;;      +--------------------------------+--------------------------------+
+      (setq gdb-many-windows t)
+
 	  (message "General... done"))
 ;; **
 (when section-korean (message "Korean...")
@@ -265,6 +277,14 @@ vi style of % jumping to matching brace."
 
 	  (global-set-key (kbd "C-c C-j") 'isearch-forward-at-point)
 
+      (defun other-window-prev (&optional step)
+        "other-window to opposite direction"
+        (interactive "P")
+        (setq step -1)
+        (other-window step))
+
+      (global-set-key (kbd "C-M-o") 'other-window)
+      (global-set-key (kbd "C-M-m") 'other-window-prev)
       (message "hotkey... done"))
 
 (when section-automodehook (message "automodehook...")
