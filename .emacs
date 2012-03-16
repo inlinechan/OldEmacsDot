@@ -308,7 +308,7 @@ vi style of % jumping to matching brace."
 	  ;; makefile
       (setq auto-mode-alist
             (append '(
-                      ("\\.\\(min\\|mak\\|make\\|mk\\)$" . makefile-mode)
+                      ("\\.(min|mak|make|mk)$" . makefile-mode)
                       ) auto-mode-alist))
 
 	  ;; (setq auto-mode-alist       
