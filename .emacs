@@ -167,7 +167,8 @@ vi style of % jumping to matching brace."
 ;; **
 (when section-korean (message "Korean...")
 	  ;; hangul configuration
-	  (set-language-environment "korean")
+	  ;; (set-language-environment "korean")
+	  (set-language-environment "UTF-8")
 	  (message "Korean... done"))
 
 ;; **
