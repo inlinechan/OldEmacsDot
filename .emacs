@@ -308,9 +308,15 @@ vi style of % jumping to matching brace."
 
 	  ;; makefile
       (setq auto-mode-alist
-            (append '(
-                      ("\\.(min|mak|make|mk)$" . makefile-mode)
-                      ) auto-mode-alist))
+            (append
+             '(("makefile\\." . makefile-mode)
+               ("Makefile\\.*" . makefile-mode)
+               ("\\.mak"      . makefile-mode)
+               ("\\.pri" . makefile-mode)
+               ("\\.pro" . makefile-mode)
+               ("\\.min" . makefile-mode)
+               ("Android.mk" . makefile-mode))
+             auto-mode-alist))
 
 	  ;; (setq auto-mode-alist       
 	  ;;   	(cons '("\\.min\\'" . makefile-mode) auto-mode-alist)
