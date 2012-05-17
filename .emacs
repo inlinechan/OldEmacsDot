@@ -169,6 +169,8 @@ vi style of % jumping to matching brace."
 	  ;; hangul configuration
 	  ;; (set-language-environment "korean")
 	  (set-language-environment "UTF-8")
+      (setq default-input-method "korean-hangul")
+	  ;; (global-set-key (kbd "S-SPC") 'toggle-input-method)
 	  (message "Korean... done"))
 
 ;; **
