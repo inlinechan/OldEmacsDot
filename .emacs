@@ -163,6 +163,9 @@ vi style of % jumping to matching brace."
       ;;      +--------------------------------+--------------------------------+
       (setq gdb-many-windows t)
 
+      ;; dircmp-mode
+      (load "~/.emacs.d/dircmp.el")
+
 	  (message "General... done"))
 ;; **
 (when section-korean (message "Korean...")
