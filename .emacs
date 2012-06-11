@@ -256,7 +256,8 @@ vi style of % jumping to matching brace."
 	  ;;     (call-interactively 'shell)))
 
 	  ;; switch h <-> cpp
-	  (global-set-key (kbd "M-p") 'eassist-switch-h-cpp)
+	  ;; (global-set-key (kbd "M-p") 'eassist-switch-h-cpp)
+      (global-set-key (kbd "M-p") 'ff-find-other-file)
 
       ;; http://www.emacswiki.org/emacs/SearchAtPoint
       ;; http://platypope.org/blog/2007/8/5/a-compendium-of-awesomeness
@@ -279,6 +280,7 @@ vi style of % jumping to matching brace."
               (isearch-forward regexp-p no-recursive-edit)))))
 
 	  (global-set-key (kbd "C-c C-j") 'isearch-forward-at-point)
+      (global-set-key (kbd "C-M-o") 'other-window)
 
       (defun other-window-prev (&optional step)
         "other-window to opposite direction"
