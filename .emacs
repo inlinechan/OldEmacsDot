@@ -31,17 +31,14 @@
 ;; git
 (defvar section-gitemacs nil)
 (defvar section-magit t)
-
 (defvar section-gtags t)
 
 (defvar section-flymake nil)
 (defvar section-w3m nil)
-
-(defvar section-anything t)
+(defvar section-anything nil)
 (defvar section-ido t)
-
 (defvar section-dsvn t)
-
+(defvar section-recentf t)
 (defvar project-webkit nil)
 
 ;;** Environment
@@ -509,6 +506,12 @@ vi style of % jumping to matching brace."
       (setq ido-enable-flex-matching t)
       (setq ido-everywhere t)
       (ido-mode 1)
+
+      ;; this setting will force Ido to always create a new buffer (in C-x b) if the name does not exist
+      (setq ido-create-new-buffer 'always)
+
+      (setq ido-file-extensions-order '(".cpp" ".c" ".h" ".txt"))
+
 	  (message "ido... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -520,3 +523,27 @@ vi style of % jumping to matching brace."
 
       (require 'vc-svn)
 	  (message "dsvn... done"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ** recentf
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-recentf (message "recentf...")
+      (require 'recentf)
+      ;; get rid of `find-file-read-only' and replace it with something
+      ;; more useful.
+      (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+      
+      ;; enable recent files mode.
+      (recentf-mode t)
+      
+      ;;; 50 files ought to be enough.
+      (setq recentf-max-saved-items 50)
+      
+      (defun ido-recentf-open ()
+        "Use `ido-completing-read' to \\[find-file] a recent file"
+        (interactive)
+        (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+            (message "Opening file...")
+          (message "Aborting")))
+
+	  (message "recentf... done"))
