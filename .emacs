@@ -41,6 +41,9 @@
 (defvar section-recentf t)
 (defvar project-webkit nil)
 
+(defvar section-smtp t)
+(defvar section-dot t)
+
 ;;** Environment
 
 (when section-environment (message "Environment...")
@@ -163,6 +166,19 @@ vi style of % jumping to matching brace."
       ;; dircmp-mode
       (load "~/.emacs.d/dircmp.el")
 
+      ;; ediff marked file
+      (defun dired-ediff-marked-files ()
+        "Run ediff on marked ediff files."
+        (interactive)
+        (set 'marked-files (dired-get-marked-files))
+        (when (= (safe-length marked-files) 2)
+          (ediff-files (nth 0 marked-files) (nth 1 marked-files)))
+        
+        (when (= (safe-length marked-files) 3)
+          (ediff3 (buffer-file-name (nth 0 marked-files))
+                  (buffer-file-name (nth 1 marked-files)) 
+                  (buffer-file-name (nth 2 marked-files)))))
+
 	  (message "General... done"))
 ;; **
 (when section-korean (message "Korean...")
@@ -171,6 +187,7 @@ vi style of % jumping to matching brace."
 	  (set-language-environment "UTF-8")
       (setq default-input-method "korean-hangul")
 	  ;; (global-set-key (kbd "S-SPC") 'toggle-input-method)
+      (global-set-key (kbd "<Hangul>") 'toggle-input-method)
 	  (message "Korean... done"))
 
 ;; **
@@ -318,6 +335,7 @@ vi style of % jumping to matching brace."
                ("\\.mak"      . makefile-mode)
                ("\\.pri" . makefile-mode)
                ("\\.pro" . makefile-mode)
+               ("\\.prf" . makefile-mode)
                ("\\.min" . makefile-mode)
                ("Android.mk" . makefile-mode))
              auto-mode-alist))
@@ -549,3 +567,23 @@ vi style of % jumping to matching brace."
           (message "Aborting")))
 
 	  (message "recentf... done"))
+
+;; ** smtp
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when section-smtp (message "smtp...")
+      (setq send-mail-function 'smtpmail-send-it) ; if you use `mail'
+      (setq message-send-mail-function 'smtpmail-send-it) ; if you use message/Gnus
+      (setq smtpmail-default-smtp-server "lgekrhqmh01.lge.com") ; set before loading library
+      (setq smtpmail-local-domain "lge.com")
+      (setq smtpmail-sendto-domain "lge.com")
+      (setq smtpmail-debug-info t) ; only to debug problems
+      (setq smtpmail-auth-credentials  ; or use ~/.authinfo
+            '(("lgekrhqmh01.lge.com" 25 "hyungchan2.kim" "xxxxxxx")))
+      (setq smtpmail-starttls-credentials
+            '(("lgekrhqmh01.lge.com" 25 "~/.my_smtp_tls.key" "~/.my_smtp_tls.cert")))
+      (message "smtp... done"))
+      
+(when section-dot (message "dot...")
+      (load-file "~/.emacs.d/graphviz-dot-mode.el")
+      (message "dot... done"))
+
