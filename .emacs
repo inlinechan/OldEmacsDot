@@ -499,6 +499,7 @@ vi style of % jumping to matching brace."
 
 	  (add-to-list 'load-path "~/.emacs.d/magit/")
 	  (require 'magit)
+	  (global-set-key (kbd "C-c s") 'magit-status)
 	  (message "magit... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
