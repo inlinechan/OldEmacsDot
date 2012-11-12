@@ -43,6 +43,7 @@
 
 (defvar section-smtp t)
 (defvar section-dot t)
+(defvar section-php t)
 
 ;;** Environment
 
@@ -586,4 +587,8 @@ vi style of % jumping to matching brace."
 (when section-dot (message "dot...")
       (load-file "~/.emacs.d/graphviz-dot-mode.el")
       (message "dot... done"))
+
+(when section-php (message "dot...")
+      (require 'php-mode)
+      (message "php... done"))
 
