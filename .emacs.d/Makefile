@@ -4,7 +4,8 @@ SUBDIRS =\
 	magit \
 	emacs-w3m \
 	git-emacs \
-	cedet-1.0.1
+	cedet-1.0.1 \
+	auto-complete-1.3.1
 
 EMACS	:= emacs -Q -batch
 EL		:= $(wildcard *.el)
@@ -18,6 +19,8 @@ all: common subdirs
 
 $(ELC): %.elc: %.el
 	$(EMACS) -f batch-byte-compile $<
+	# init.elc cause error
+	rm -f init.elc
 
 common: $(ELC)
 
