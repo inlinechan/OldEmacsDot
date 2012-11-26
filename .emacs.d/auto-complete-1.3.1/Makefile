@@ -3,7 +3,7 @@ PACKAGE=auto-complete-${VERSION}
 
 .PHONY: byte-compile install clean package tar.bz2 zip auto
 
-auto: byte-compile
+auto: clean byte-compile
 
 byte-compile:
 	emacs -Q -L . -batch -f batch-byte-compile *.el

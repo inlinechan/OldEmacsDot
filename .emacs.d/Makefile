@@ -5,13 +5,15 @@ SUBDIRS =\
 	emacs-w3m \
 	git-emacs \
 	cedet-1.0.1 \
-	auto-complete-1.3.1
+	auto-complete-1.3.1 \
+	js2-mode \
+	jquery-doc
 
 EMACS	:= emacs -Q -batch
 EL		:= $(wildcard *.el)
 ELC		:= $(EL:.el=.elc)
 
-NUMCPU=$(cat /proc/cpuinfo  | grep "cpu cores" | head -1 | awk '{print $4}')
+NUMCPU=$(grep -c /proc/cpuinfo)
 
 .PHONY: common common-batch-compile subdirs $(SUBDIRS)
 

@@ -319,16 +319,16 @@ vi style of % jumping to matching brace."
 			(cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
 	  ;; javascirpt-mode
-	  (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-	  (autoload 'javascript-mode "javascript" nil t)
+	  ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+	  ;; (autoload 'javascript-mode "javascript" nil t)
 	  ;; (autoload 'javascript-mode "javascript-mode")
 	  ;; (setq auto-mode-alist       
 	  ;;      (cons '("\\.js\\'" . javascript-mode) auto-mode-alist))
 
 	  ;; js2 mode
-	  ;; http://code.google.com/p/js2-mode/wiki/installationinstructions
-	  ;; (autoload 'js2-mode "js2" nil t)
-	  ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+      (add-to-list 'load-path "~/.emacs.d/js2-mode")
+      (autoload 'js2-mode "js2-mode" nil t)
+      (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 	  ;; makefile
       (setq auto-mode-alist
@@ -605,7 +605,7 @@ vi style of % jumping to matching brace."
 
       (require 'auto-complete-clang)
       ;; c++
-      (add-hook 'c++-mode (lambda ()
+      (add-hook 'c++-mode-hook (lambda ()
                             (add-to-list 'ac-sources 'ac-source-clang)))
 
       ;; Complete member name by C-c . for C++ mode.
@@ -632,5 +632,17 @@ vi style of % jumping to matching brace."
         (setq ac-sources (append '(ac-source-clang ac-source-yasnippet) ac-sources)))
       (add-hook 'c++-mode-hook 'my-ac-cc-mode-setup)
       (add-hook 'c-mode-common-hook 'my-ac-cc-mode-setup)
+
+      ;; javascript
+      (add-to-list 'load-path "~/.emacs.d/jquery-doc")
+      (require 'jquery-doc)
+      ;; adds ac-source-jquery to the ac-sources list
+      (add-hook 'js2-mode-hook 'jquery-doc-setup)
+
+      (defun my-js2-mode-hook ()
+        (jquery-doc-setup)
+        (local-set-key (kbd "C-c .") 'ac-complete-jquery))
+
+      (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
       (message "autocomplete... done"))
