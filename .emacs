@@ -297,7 +297,7 @@ vi style of % jumping to matching brace."
               (add-hook 'isearch-mode-hook 'isearch-set-initial-string)
               (isearch-forward regexp-p no-recursive-edit)))))
 
-	  (global-set-key (kbd "C-c C-j") 'isearch-forward-at-point)
+	  (global-set-key (kbd "C-c C-k") 'isearch-forward-at-point)
       (global-set-key (kbd "C-M-o") 'other-window)
 
       (defun other-window-prev (&optional step)
