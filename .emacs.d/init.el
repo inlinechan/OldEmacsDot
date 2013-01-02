@@ -182,7 +182,13 @@ vi style of % jumping to matching brace."
                   (buffer-file-name (nth 1 marked-files)) 
                   (buffer-file-name (nth 2 marked-files)))))
 
+	  ;; gdict
+	  (add-to-list 'load-path "~/.emacs.d")
+	  (require 'gdict)
+	  (require 'json)
+	  (global-set-key (kbd "C-c g d") 'gdict)
 	  (message "General... done"))
+
 ;; **
 (when section-korean (message "Korean...")
 	  ;; hangul configuration
