@@ -51,108 +51,108 @@
 
 (when section-environment (message "Environment...")
 
-	  ;; OS type --- are we running Microsoft Windows?
-	  (defvar running-ms-windows
-		(eq system-type 'windows-nt))
+      ;; OS type --- are we running Microsoft Windows?
+      (defvar running-ms-windows
+        (eq system-type 'windows-nt))
 
-	  (defvar running-ms-windows
-		(string-match "windows" (prin1-to-string system-type)))
+      (defvar running-ms-windows
+        (string-match "windows" (prin1-to-string system-type)))
 
-	  (defvar running-gnu-linux
-		(string-match "linux" (prin1-to-string system-type)))
+      (defvar running-gnu-linux
+        (string-match "linux" (prin1-to-string system-type)))
 
-	  ;; Emacs type --- are we running XEmacs (or GNU Emacs)?
-	  (defvar running-xemacs
-		(string-match "XEmacs" emacs-version))
+      ;; Emacs type --- are we running XEmacs (or GNU Emacs)?
+      (defvar running-xemacs
+        (string-match "XEmacs" emacs-version))
 
-	  ;; OS type --- are we running GNU Linux?
-	  (defmacro GNULinux (&rest body)
-		(list 'if (string-match "linux" (prin1-to-string system-type))
-			  (cons 'progn body)))
+      ;; OS type --- are we running GNU Linux?
+      (defmacro GNULinux (&rest body)
+        (list 'if (string-match "linux" (prin1-to-string system-type))
+              (cons 'progn body)))
 
-	  (defmacro Windows (&rest body)
-		(list 'if (string-match "windows" (prin1-to-string system-type))
-			  (cons 'progn body)))
+      (defmacro Windows (&rest body)
+        (list 'if (string-match "windows" (prin1-to-string system-type))
+              (cons 'progn body)))
 
-	  (defmacro XLaunch (&rest body)
-		(list 'if (eq window-system 'x)(cons 'progn body)))
+      (defmacro XLaunch (&rest body)
+        (list 'if (eq window-system 'x)(cons 'progn body)))
 
-	  ;; Emacs type --- are we running GNU Emacs?
-	  (defmacro GNUEmacs (&rest body)
-		"Execute any number of forms if running under GNU Emacs."
-		(list 'if (string-match "GNU Emacs" (version))
-			  (cons 'progn body)))
+      ;; Emacs type --- are we running GNU Emacs?
+      (defmacro GNUEmacs (&rest body)
+        "Execute any number of forms if running under GNU Emacs."
+        (list 'if (string-match "GNU Emacs" (version))
+              (cons 'progn body)))
 
-	  (defmacro GNUEmacs23 (&rest body)
-		(list 'if (string-match "GNU Emacs 23" (version))
-			  (cons 'progn body)))
+      (defmacro GNUEmacs23 (&rest body)
+        (list 'if (string-match "GNU Emacs 23" (version))
+              (cons 'progn body)))
 
-	  (defmacro GNUEmacs22 (&rest body)
-		(list 'if (string-match "GNU Emacs 22" (version))
-			  (cons 'progn body)))
+      (defmacro GNUEmacs22 (&rest body)
+        (list 'if (string-match "GNU Emacs 22" (version))
+              (cons 'progn body)))
 
-	  (defmacro XEmacs (&rest body)
-		"Execute any number of forms if running under XEmacs."
-		(list 'if (string-match "XEmacs" (version))
-			  (cons 'progn body)))
+      (defmacro XEmacs (&rest body)
+        "Execute any number of forms if running under XEmacs."
+        (list 'if (string-match "XEmacs" (version))
+              (cons 'progn body)))
 
-	  ;; Emacs version
-	  (GNUEmacs
-	   (list emacs-version emacs-major-version emacs-minor-version
-			 system-type system-name system-configuration
-			 window-system
-			 (when (boundp 'aquamacs-version) aquamacs-version)))
+      ;; Emacs version
+      (GNUEmacs
+       (list emacs-version emacs-major-version emacs-minor-version
+             system-type system-name system-configuration
+             window-system
+             (when (boundp 'aquamacs-version) aquamacs-version)))
 
-	  (XEmacs
-	   ;; don't offer migration of the init file
-	   (setq load-home-init-file t))
+      (XEmacs
+       ;; don't offer migration of the init file
+       (setq load-home-init-file t))
 
-	  (when running-gnu-linux
-		(modify-all-frames-parameters
-		 '((height . 32))))
+      (when running-gnu-linux
+        (modify-all-frames-parameters
+         '((height . 32))))
 
-	  (message "0 Environment... Done"))
+      (message "0 Environment... Done"))
 
 
 ;; **
 (when section-general (message "General...")
-	  ;; mark could be noticable
-	  (setq-default transient-mark-mode t)
+      ;; mark could be noticable
+      (setq-default transient-mark-mode t)
 
-	  ;; no backup ( start with ~(tilt) )
-	  (setq-default make-backup-files nil)
+      ;; no backup ( start with ~(tilt) )
+      (setq-default make-backup-files nil)
 
-	  ;; column limit 80
-	  (setq fill-column 80)
+      ;; column limit 80
+      (setq fill-column 80)
 
-	  ;; text-mode is default
-	  (setq default-major-mode 'text-mode)
-	  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+      ;; text-mode is default
+      (setq default-major-mode 'text-mode)
+      (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-	  ;; parenthesis matching
-	  ;; http://www.emacswiki.org/cgi-bin/wiki/parenthesismatching
-	  (defun goto-match-paren (arg)
-		"go to the matching parenthesis if on parenthesis, otherwise insert %.
+      ;; parenthesis matching
+      ;; http://www.emacswiki.org/cgi-bin/wiki/parenthesismatching
+      (defun goto-match-paren (arg)
+        "go to the matching parenthesis if on parenthesis, otherwise insert %.
 vi style of % jumping to matching brace."
-		(interactive "p")
-		(cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-			  ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-			  (t (self-insert-command (or arg 1)))))
+        (interactive "p")
+        (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
+              ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
+              (t (self-insert-command (or arg 1)))))
 
-	  ;; purpose: when you visit a file, point goes to the last place where
-	  ;; it was when you previously visited the same file.
-	  ;;
-	  ;; http://www.emacswiki.org/cgi-bin/wiki/saveplace
-	  (require 'saveplace)
-	  (setq-default save-place t)
+      ;; purpose: when you visit a file, point goes to the last place where
+      ;; it was when you previously visited the same file.
+      ;;
+      ;; http://www.emacswiki.org/cgi-bin/wiki/saveplace
+      (require 'saveplace)
+      (setq-default save-place t)
 
-	  ;; ediff
+      ;; ediff
       ;; http://www.emacswiki.org/emacs/EdiffMode
       (setq ediff-split-window-function (lambda (&optional arg)
                                           (if (> (frame-width) 150)
                                               (split-window-horizontally arg)
                                             (split-window-vertically arg))))
-	  ;; (setq ediff-split-window-function 'split-window-horizontally)
+      ;; (setq ediff-split-window-function 'split-window-horizontally)
 
       ;;    If `gdb-many-windows' is non-`nil', then `M-x gdb' displays the
       ;; following frame layout:
@@ -182,87 +182,87 @@ vi style of % jumping to matching brace."
                   (buffer-file-name (nth 1 marked-files)) 
                   (buffer-file-name (nth 2 marked-files)))))
 
-	  ;; gdict
-	  (add-to-list 'load-path "~/.emacs.d")
-	  (require 'gdict)
-	  (require 'json)
-	  (global-set-key (kbd "C-c g d") 'gdict)
-	  (message "General... done"))
+      ;; gdict
+      (add-to-list 'load-path "~/.emacs.d")
+      (require 'gdict)
+      (require 'json)
+      (global-set-key (kbd "C-c g d") 'gdict)
+      (message "General... done"))
 
 ;; **
 (when section-korean (message "Korean...")
-	  ;; hangul configuration
-	  ;; (set-language-environment "korean")
-	  (set-language-environment "UTF-8")
+      ;; hangul configuration
+      ;; (set-language-environment "korean")
+      (set-language-environment "UTF-8")
       (setq default-input-method "korean-hangul")
-	  ;; (global-set-key (kbd "S-SPC") 'toggle-input-method)
+      ;; (global-set-key (kbd "S-SPC") 'toggle-input-method)
       (global-set-key (kbd "<Hangul>") 'toggle-input-method)
-	  (message "Korean... done"))
+      (message "Korean... done"))
 
 ;; **
 (when section-notab (message "no tab...")
-	  (defun notab ()
-		"use 4 spaces instead of tab and also use spaces for indentation"
-		(setq default-tab-width 4)
-		(setq c-basic-offset 4)               ;; indent use only 4 blanks
-		(setq indent-tabs-mode nil)           ;; no tab
-		)  
-	  
-	  (add-hook 'c-mode-hook 'notab)
-	  (add-hook 'c-mode-hook '
-				(lambda () (c-set-style "bsd")))
-	  (add-hook 'c++-mode-hook 'notab)
-	  (add-hook 'c++-mode-hook '
-				(lambda () (c-set-style "bsd")))
+      (defun notab ()
+        "use 4 spaces instead of tab and also use spaces for indentation"
+        (setq default-tab-width 4)
+        (setq c-basic-offset 4)               ;; indent use only 4 blanks
+        (setq indent-tabs-mode nil)           ;; no tab
+        )  
+      
+      (add-hook 'c-mode-hook 'notab)
+      (add-hook 'c-mode-hook '
+                (lambda () (c-set-style "bsd")))
+      (add-hook 'c++-mode-hook 'notab)
+      (add-hook 'c++-mode-hook '
+                (lambda () (c-set-style "bsd")))
 
-	  (add-hook 'jave-mode-hook 'notab)
-	  (add-hook 'css-mode-hook 'notab)
-	  (add-hook 'python-mode-hook 'notab)
-	  (add-hook 'perl-mode-hook 'notab)
-	  (add-hook 'cperl-mode-hook 'notab)
-	  (add-hook 'emacs-lisp-mode-hook 'notab)
+      (add-hook 'jave-mode-hook 'notab)
+      (add-hook 'css-mode-hook 'notab)
+      (add-hook 'python-mode-hook 'notab)
+      (add-hook 'perl-mode-hook 'notab)
+      (add-hook 'cperl-mode-hook 'notab)
+      (add-hook 'emacs-lisp-mode-hook 'notab)
 
-	  ;; tab width
-	  (setq default-tab-width 4)
-	  (setq c-basic-offset 4)                 ;; indent use only 4 spaces
-	  (setq-default indent-tabs-mode nil)     ;; no tab
+      ;; tab width
+      (setq default-tab-width 4)
+      (setq c-basic-offset 4)                 ;; indent use only 4 spaces
+      (setq-default indent-tabs-mode nil)     ;; no tab
 
-	  (message "no tab... done"))
+      (message "no tab... done"))
 
 ;; **
 (when section-ui (message "UI customize...")
-	  ;; no splash
-	  (setq inhibit-startup-message t)
+      ;; no splash
+      (setq inhibit-startup-message t)
 
-	  ;; hide toolbar & menubar
-;;	  (tool-bar-mode -1)
-;;	  (menu-bar-mode -1)
+      ;; hide toolbar & menubar
+;;    (tool-bar-mode -1)
+;;    (menu-bar-mode -1)
 
-	  ;; color theme
-	  (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
-	  (require 'color-theme)
-	  (color-theme-initialize)
-	  (color-theme-clarity)
+      ;; color theme
+      (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
+      (require 'color-theme)
+      (color-theme-initialize)
+      (color-theme-clarity)
 
-	  (message "UI customize... done"))
+      (message "UI customize... done"))
 
 ;; **
 (when section-hotkey (message "hotkey...")
-	  ;;(global-set-key (kbd "C-c y") 'clipboard-yank)
-	  (global-set-key (kbd "C-c c") 'compile)    
-	  (global-set-key (kbd "C-c r y") 'comment-region)
-	  (global-set-key (kbd "C-c r u") 'uncomment-region)
-	  (global-set-key (kbd "M-g") 'goto-line)
+      ;;(global-set-key (kbd "C-c y") 'clipboard-yank)
+      (global-set-key (kbd "C-c c") 'compile)    
+      (global-set-key (kbd "C-c r y") 'comment-region)
+      (global-set-key (kbd "C-c r u") 'uncomment-region)
+      (global-set-key (kbd "M-g") 'goto-line)
 
-	  ;; fast move next, previous buffer
-	  (global-set-key (kbd "C-c n") 'next-buffer)
-	  (global-set-key (kbd "C-c p") 'previous-buffer)
+      ;; fast move next, previous buffer
+      (global-set-key (kbd "C-c n") 'next-buffer)
+      (global-set-key (kbd "C-c p") 'previous-buffer)
 
-	  ;; (global-set-key "\c-xt" 'goto-line)        ;; goto-line
-	  (global-set-key (kbd "C-c m") 'manual-entry)    ;; manpage
-	  ;; (global-set-key "\c-cs" 'shell-command)    ;; shell-cmd
+      ;; (global-set-key "\c-xt" 'goto-line)        ;; goto-line
+      (global-set-key (kbd "C-c m") 'manual-entry)    ;; manpage
+      ;; (global-set-key "\c-cs" 'shell-command)    ;; shell-cmd
 
-	  (global-set-key (kbd "M-]") 'goto-match-paren)  ;; goto matching parenthesis
+      (global-set-key (kbd "M-]") 'goto-match-paren)  ;; goto matching parenthesis
 
       ;; find from current dir
       (global-set-key (kbd "C-c C-g") 'find-name-dired)
@@ -270,19 +270,19 @@ vi style of % jumping to matching brace."
       (global-set-key (kbd "C-c C-h") 'find-grep-dired)
       (global-set-key (kbd "C-c g g") 'grep-find)
 
-	  ;; execute the shell buffer in utf-8 encoding.
-	  ;; (defun unicode-shell ()
-	  ;;   "execute the shell buffer in utf-8 encoding.
-	  ;; note that you'll need to set the environment variable lang and others
-	  ;; appropriately."
-	  ;;   (interactive)
-	  ;;   (let ((coding-system-for-read 'utf-8)
-	  ;;         (coding-system-for-write 'utf-8)
-	  ;;         (coding-system-require-warning t))
-	  ;;     (call-interactively 'shell)))
+      ;; execute the shell buffer in utf-8 encoding.
+      ;; (defun unicode-shell ()
+      ;;   "execute the shell buffer in utf-8 encoding.
+      ;; note that you'll need to set the environment variable lang and others
+      ;; appropriately."
+      ;;   (interactive)
+      ;;   (let ((coding-system-for-read 'utf-8)
+      ;;         (coding-system-for-write 'utf-8)
+      ;;         (coding-system-require-warning t))
+      ;;     (call-interactively 'shell)))
 
-	  ;; switch h <-> cpp
-	  ;; (global-set-key (kbd "M-p") 'eassist-switch-h-cpp)
+      ;; switch h <-> cpp
+      ;; (global-set-key (kbd "M-p") 'eassist-switch-h-cpp)
       (global-set-key (kbd "M-p") 'ff-find-other-file)
 
       ;; http://www.emacswiki.org/emacs/SearchAtPoint
@@ -305,7 +305,7 @@ vi style of % jumping to matching brace."
               (add-hook 'isearch-mode-hook 'isearch-set-initial-string)
               (isearch-forward regexp-p no-recursive-edit)))))
 
-	  (global-set-key (kbd "C-c C-k") 'isearch-forward-at-point)
+      (global-set-key (kbd "C-c C-k") 'isearch-forward-at-point)
       (global-set-key (kbd "C-M-o") 'other-window)
 
       (defun other-window-prev (&optional step)
@@ -319,24 +319,24 @@ vi style of % jumping to matching brace."
       (message "hotkey... done"))
 
 (when section-automodehook (message "automodehook...")
-	  ;; css-mode
-	  (autoload 'css-mode "css-mode-simple")
-	  (setq auto-mode-alist       
-			(cons '("\\.css\\'" . css-mode) auto-mode-alist))
+      ;; css-mode
+      (autoload 'css-mode "css-mode-simple")
+      (setq auto-mode-alist       
+            (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
-	  ;; javascirpt-mode
-	  ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-	  ;; (autoload 'javascript-mode "javascript" nil t)
-	  ;; (autoload 'javascript-mode "javascript-mode")
-	  ;; (setq auto-mode-alist       
-	  ;;      (cons '("\\.js\\'" . javascript-mode) auto-mode-alist))
+      ;; javascirpt-mode
+      ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+      ;; (autoload 'javascript-mode "javascript" nil t)
+      ;; (autoload 'javascript-mode "javascript-mode")
+      ;; (setq auto-mode-alist       
+      ;;      (cons '("\\.js\\'" . javascript-mode) auto-mode-alist))
 
-	  ;; js2 mode
+      ;; js2 mode
       (add-to-list 'load-path "~/.emacs.d/js2-mode")
       (autoload 'js2-mode "js2-mode" nil t)
       (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-	  ;; makefile
+      ;; makefile
       (setq auto-mode-alist
             (append
              '(("makefile\\." . makefile-mode)
@@ -349,60 +349,60 @@ vi style of % jumping to matching brace."
                ("Android.mk" . makefile-mode))
              auto-mode-alist))
 
-	  ;; (setq auto-mode-alist       
-	  ;;   	(cons '("\\.min\\'" . makefile-mode) auto-mode-alist)
-	  ;;   	(cons '("\\.mak\\'" . makefile-mode) auto-mode-alist)
-	  ;;   	(cons '("\\.make\\'" . makefile-mode) auto-mode-alist))
+      ;; (setq auto-mode-alist       
+      ;;    (cons '("\\.min\\'" . makefile-mode) auto-mode-alist)
+      ;;    (cons '("\\.mak\\'" . makefile-mode) auto-mode-alist)
+      ;;    (cons '("\\.make\\'" . makefile-mode) auto-mode-alist))
 
-	  ;; perl mode
-	  (add-to-list 'auto-mode-alist '("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode))
-	  (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-	  (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-	  (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-	  (message "automodehook..."))
+      ;; perl mode
+      (add-to-list 'auto-mode-alist '("\\.\\([pp][llm]\\|al\\)\\'" . cperl-mode))
+      (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
+      (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
+      (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
+      (message "automodehook..."))
 
 (when section-cedet (message "cedet...")
-	  ;; cedet
+      ;; cedet
 
-	  ;; http://www.emacswiki.org/emacs/collectionofemacsdevelopmentenvironmenttools
-	  (setq byte-compile-warnings nil)
+      ;; http://www.emacswiki.org/emacs/collectionofemacsdevelopmentenvironmenttools
+      (setq byte-compile-warnings nil)
 
-	  ;; load cedet.
-	  ;; see cedet/common/cedet.info for configuration details.
-	  (load-file "~/.emacs.d/cedet-1.0.1/common/cedet.el")
+      ;; load cedet.
+      ;; see cedet/common/cedet.info for configuration details.
+      (load-file "~/.emacs.d/cedet-1.0.1/common/cedet.el")
 
-	  ;; enable ede (project management) features
-	  (global-ede-mode t)
+      ;; enable ede (project management) features
+      (global-ede-mode t)
 
       (semantic-load-enable-excessive-code-helpers)
       (require 'semantic-ia)
 
-	  ;; enable ede for a pre-existing c++ project
-	  ;; (ede-cpp-root-project "name" :file "~/myproject/makefile")
+      ;; enable ede for a pre-existing c++ project
+      ;; (ede-cpp-root-project "name" :file "~/myproject/makefile")
 
 
-	  ;; enabling semantic (code-parsing, smart completion) features
-	  ;; select one of the following:
+      ;; enabling semantic (code-parsing, smart completion) features
+      ;; select one of the following:
 
-	  ;; * this enables the database and idle reparse engines
-	  (semantic-load-enable-minimum-features)
+      ;; * this enables the database and idle reparse engines
+      (semantic-load-enable-minimum-features)
 
-	  ;; * this enables some tools useful for coding, such as summary mode
-	  ;;   imenu support, and the semantic navigator
-	  (semantic-load-enable-code-helpers)
+      ;; * this enables some tools useful for coding, such as summary mode
+      ;;   imenu support, and the semantic navigator
+      (semantic-load-enable-code-helpers)
 
-	  ;; * this enables even more coding tools such as intellisense mode
-	  ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
-	  (semantic-load-enable-gaudy-code-helpers)
+      ;; * this enables even more coding tools such as intellisense mode
+      ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
+      (semantic-load-enable-gaudy-code-helpers)
 
-	  ;; * this enables the use of exuberent ctags if you have it installed.
-	  ;;   if you use c++ templates or boost, you should not enable it.
-	  ;; (semantic-load-enable-all-exuberent-ctags-support)
-	  ;;   or, use one of these two types of support.
-	  ;;   add support for new languges only via ctags.
-	  ;; (semantic-load-enable-primary-exuberent-ctags-support)
-	  ;;   add support for using ctags as a backup parser.
-	  ;; (semantic-load-enable-secondary-exuberent-ctags-support)
+      ;; * this enables the use of exuberent ctags if you have it installed.
+      ;;   if you use c++ templates or boost, you should not enable it.
+      ;; (semantic-load-enable-all-exuberent-ctags-support)
+      ;;   or, use one of these two types of support.
+      ;;   add support for new languges only via ctags.
+      ;; (semantic-load-enable-primary-exuberent-ctags-support)
+      ;;   add support for using ctags as a backup parser.
+      ;; (semantic-load-enable-secondary-exuberent-ctags-support)
 
       (require 'semanticdb)
       (global-semanticdb-minor-mode 1)
@@ -412,84 +412,84 @@ vi style of % jumping to matching brace."
       (semanticdb-enable-gnu-global-databases 'c++-mode)
       (semanticdb-enable-gnu-global-databases 'java-mode)
 
-	  ;; enable srecode (template management) minor-mode.
-	  ;; (global-srecode-minor-mode 1)
+      ;; enable srecode (template management) minor-mode.
+      ;; (global-srecode-minor-mode 1)
 
-	  ;; ecb
-	  (add-to-list 'load-path "~/.emacs.d/ecb-snap")
-	  (require 'ecb)
-	  (require 'ecb-autoloads)
+      ;; ecb
+      (add-to-list 'load-path "~/.emacs.d/ecb-snap")
+      (require 'ecb)
+      (require 'ecb-autoloads)
 
-	  (custom-set-variables
-	   ;; custom-set-variables was added by Custom.
-	   ;; If you edit it by hand, you could mess it up, so be careful.
-	   ;; Your init file should contain only one such instance.
-	   ;; If there is more than one, they won't work right.
-	   '(ecb-options-version "2.40"))
-	  ;;  '(ecb-options-version "2.40")
-	  ;;  '(ecb-source-path (quote (("/home/hyungchan/android/external/webkit" "webkit")))))
-	  ;; ecb window hotkey
-	  (global-set-key (kbd "M-0") 'ecb-goto-window-edit-last)
-	  (global-set-key (kbd "M-1") 'ecb-goto-window-directories)
-	  (global-set-key (kbd "M-2") 'ecb-goto-window-sources)
-	  (global-set-key (kbd "M-3") 'ecb-goto-window-methods)
-	  (global-set-key (kbd "M-4") 'ecb-goto-window-history)
+      (custom-set-variables
+       ;; custom-set-variables was added by Custom.
+       ;; If you edit it by hand, you could mess it up, so be careful.
+       ;; Your init file should contain only one such instance.
+       ;; If there is more than one, they won't work right.
+       '(ecb-options-version "2.40"))
+      ;;  '(ecb-options-version "2.40")
+      ;;  '(ecb-source-path (quote (("/home/hyungchan/android/external/webkit" "webkit")))))
+      ;; ecb window hotkey
+      (global-set-key (kbd "M-0") 'ecb-goto-window-edit-last)
+      (global-set-key (kbd "M-1") 'ecb-goto-window-directories)
+      (global-set-key (kbd "M-2") 'ecb-goto-window-sources)
+      (global-set-key (kbd "M-3") 'ecb-goto-window-methods)
+      (global-set-key (kbd "M-4") 'ecb-goto-window-history)
 
-	  ;; (global-set-key (kbd "C-c C-e") 'ecb-activate)
-	  ;; (global-set-key (kbd "C-c C-d") 'ecb-deactivate)
+      ;; (global-set-key (kbd "C-c C-e") 'ecb-activate)
+      ;; (global-set-key (kbd "C-c C-d") 'ecb-deactivate)
 
-	  ;; global regexp search
-	  (global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
+      ;; global regexp search
+      (global-set-key (kbd "C-c , h") 'semantic-symref-regexp)
 
       ;; jump well
       (global-set-key (kbd "C-c , a") 'semantic-ia-fast-jump)
 
-	  (message "cedet..."))
+      (message "cedet..."))
 
 (when project-webkit (message "project-webkit...")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	  ;; android webkit
+      ;; android webkit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	  ;; (ede-cpp-root-project "androidwebkit"
-	  ;;                       :name "android webkit"
-	  ;;                       :file "~/android/all.files"
-	  ;;                       :include-path '("~/android/external/webkit"
-	  ;;                                       "~/android/external/skia"
-	  ;;                                       "~/android/frameworks/base/core/java/android")
-	  ;;                       ;; :include-path '("/"
-	  ;;                       ;;                  "/common"
-	  ;;                       ;;                  "/interfaces"
-	  ;;                       ;;                  "/libs"
-	  ;;                       ;;                  )
-	  ;;                       ;; :system-include-path '("~/exp/include")
-	  ;;                       ;; :spp-table '(("isunix" . "")
-	  ;;                       ;;               ("boost_test_dyn_link" . ""))
-	  ;;                       )
-	  (message "project-webkit... done"))
+      ;; (ede-cpp-root-project "androidwebkit"
+      ;;                       :name "android webkit"
+      ;;                       :file "~/android/all.files"
+      ;;                       :include-path '("~/android/external/webkit"
+      ;;                                       "~/android/external/skia"
+      ;;                                       "~/android/frameworks/base/core/java/android")
+      ;;                       ;; :include-path '("/"
+      ;;                       ;;                  "/common"
+      ;;                       ;;                  "/interfaces"
+      ;;                       ;;                  "/libs"
+      ;;                       ;;                  )
+      ;;                       ;; :system-include-path '("~/exp/include")
+      ;;                       ;; :spp-table '(("isunix" . "")
+      ;;                       ;;               ("boost_test_dyn_link" . ""))
+      ;;                       )
+      (message "project-webkit... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** gtags
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when section-gtags (message "gtags...")
-	  (require 'gtags)
-	  (autoload 'gtags-mode "gtags" "" t)
-	  (global-set-key (kbd "C-c C-f") 'gtags-find-file)
-	  (global-set-key (kbd "C-c g f") 'gtags-find-file)
-	  (global-set-key (kbd "C-c g t") 'gtags-find-tag-from-here)
-	  (global-set-key (kbd "C-c g p") 'gtags-find-pattern)
-	  (global-set-key (kbd "C-c g r") 'gtags-find-rtag)
-	  (global-set-key (kbd "C-c g l") 'gtags-find-symbol)
+      (require 'gtags)
+      (autoload 'gtags-mode "gtags" "" t)
+      (global-set-key (kbd "C-c C-f") 'gtags-find-file)
+      (global-set-key (kbd "C-c g f") 'gtags-find-file)
+      (global-set-key (kbd "C-c g t") 'gtags-find-tag-from-here)
+      (global-set-key (kbd "C-c g p") 'gtags-find-pattern)
+      (global-set-key (kbd "C-c g r") 'gtags-find-rtag)
+      (global-set-key (kbd "C-c g l") 'gtags-find-symbol)
 
-	  (message "gtags... done"))
+      (message "gtags... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** git-emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when section-gitemacs (message "gitemacs...")
-	  (add-to-list 'load-path "~/.emacs.d/git-emacs")
-	  (require 'git-emacs)
-	  (message "gitemacs... done"))
+      (add-to-list 'load-path "~/.emacs.d/git-emacs")
+      (require 'git-emacs)
+      (message "gitemacs... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** magit
@@ -505,10 +505,10 @@ vi style of % jumping to matching brace."
       (require 'vc)
       (remove-hook 'find-file-hooks 'vc-find-file-hook)
 
-	  (add-to-list 'load-path "~/.emacs.d/magit/")
-	  (require 'magit)
-	  (global-set-key (kbd "C-c s") 'magit-status)
-	  (message "magit... done"))
+      (add-to-list 'load-path "~/.emacs.d/magit/")
+      (require 'magit)
+      (global-set-key (kbd "C-c s") 'magit-status)
+      (message "magit... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** w3m
@@ -516,7 +516,7 @@ vi style of % jumping to matching brace."
 (when section-w3m (message "w3m...")
       (setq load-path (cons (expand-file-name "~/.emacs.d/emacs-w3m") load-path))
       (require 'w3m-load)
-	  (message "w3m... done"))
+      (message "w3m... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** anything
@@ -524,10 +524,10 @@ vi style of % jumping to matching brace."
 (when section-anything (message "anything...")
       (add-to-list 'load-path "~/.emacs.d/anything-config")
       (add-to-list 'load-path "~/.emacs.d/anything-config/extensions")
-	  ;; (require 'anything-gtags)
+      ;; (require 'anything-gtags)
       (global-set-key (kbd "C-x a") 'anything)
-	  (require 'anything-config)
-	  (message "anything... done"))
+      (require 'anything-config)
+      (message "anything... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** ido
@@ -542,7 +542,7 @@ vi style of % jumping to matching brace."
 
       (setq ido-file-extensions-order '(".cpp" ".c" ".h" ".txt"))
 
-	  (message "ido... done"))
+      (message "ido... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** svn
@@ -552,7 +552,7 @@ vi style of % jumping to matching brace."
       (autoload 'svn-update "dsvn" "Run `svn update'." t)
 
       (require 'vc-svn)
-	  (message "dsvn... done"))
+      (message "dsvn... done"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ** recentf
@@ -576,7 +576,7 @@ vi style of % jumping to matching brace."
             (message "Opening file...")
           (message "Aborting")))
 
-	  (message "recentf... done"))
+      (message "recentf... done"))
 
 ;; ** smtp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -602,7 +602,7 @@ vi style of % jumping to matching brace."
       (message "php... done"))
 
 (when section-autocomplete (message "autocomplete...")
-	  (add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1")
+      (add-to-list 'load-path "~/.emacs.d/auto-complete-1.3.1")
       (setq ac-dictionary-directories "~/.emacs.d/dict")
       (require 'auto-complete-config)
       (ac-config-default)
