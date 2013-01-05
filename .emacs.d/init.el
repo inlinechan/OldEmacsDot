@@ -46,6 +46,7 @@
 (defvar section-php t)
 
 (defvar section-autocomplete t)
+(defvar section-compile t)
 
 ;;** Environment
 
@@ -652,3 +653,102 @@ vi style of % jumping to matching brace."
       (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
       (message "autocomplete... done"))
+
+(when section-compile (message "compile...")
+      ;; FIXME: requires cedet(ede)
+
+      (defun alexott/gen-cmake-debug-compile-string ()
+        "Generates compile string for compiling CMake project in debug mode"
+        (let* ((current-dir (file-name-directory
+                             (or (buffer-file-name (current-buffer)) default-directory)))
+               (prj (ede-current-project current-dir))
+               (root-dir (ede-project-root-directory prj))
+               (subdir "")
+               )
+          (when (string-match root-dir current-dir)
+            (setf subdir (substring current-dir (match-end 0))))
+          (concat "cd " root-dir "Debug/" "; make -j3")
+          ))
+
+      (defun compile-string-make ()
+        "Generates compile string for compiling CMake project in debug mode"
+        (let* ((current-dir (file-name-directory
+                             (or (buffer-file-name (current-buffer)) default-directory)))
+               (prj (ede-current-project current-dir))
+               (root-dir (ede-project-root-directory prj))
+               (subdir "")
+               )
+          (when (string-match root-dir current-dir)
+            (setf subdir (substring current-dir (match-end 0))))
+          (concat "cd " root-dir "; make -j8")
+          ))
+
+      (defun alexott/ede-get-local-var (fname var)
+        "fetch given variable var from :local-variables of project of file fname"
+        (let* ((current-dir (file-name-directory fname))
+               (prj (ede-current-project current-dir)))
+          (when prj
+            (let* ((ov (oref prj local-variables))
+                   (lst (assoc var ov)))
+              (when lst
+                (cdr lst))))))
+
+      ;; setup compile package
+      (require 'compile)
+      (setq compilation-disable-input nil)
+      (setq compilation-scroll-output t)
+      (setq mode-compile-always-save-buffer-p t)
+
+      (defun alexott/compile ()
+        "Saves all unsaved buffers, and runs 'compile'."
+        (interactive)
+        (save-some-buffers t)
+        (let* ((r (alexott/ede-get-local-var
+                   (or (buffer-file-name (current-buffer)) default-directory)
+                   'compile-command))
+               (cmd (if (functionp r) (funcall r) r)))
+          (set (make-local-variable 'compile-command) (or cmd compile-command))
+          (compile compile-command)))
+
+      (global-set-key [f9] 'alexott/compile)
+
+      ;; Sample project
+      ;; While editing any files under ~/tmp/ede_test/ such as hello.c
+      ;; By pressing F9, it will automatically compile using its Makefile
+      (when (file-exists-p "~/tmp/ede_test/Makefile")
+        (setq cpp-tests-project
+              (ede-cpp-root-project "ede_test"
+                                    :file "~/tmp/ede_test/Makefile"
+                                    :system-include-path '("/usr/include")
+                                    :local-variables (list
+                                                      (cons 'compile-command 'compile-string-make)
+                                                      )
+                                    ;; :local-variables (list (cons 'compile-command "make"))
+                                    )))
+
+      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      ;; QtWebKit
+      (when (file-exists-p "~/QtWebKit/build.sh")
+        (setq cpp-tests-project
+              (ede-cpp-root-project "QtWebKit"
+                                    :file "~/QtWebKit/build.sh"
+                                    :system-include-path '("/usr/include")
+                                    :local-variables (list
+                                                      (cons 'compile-command 'compile-string-qtwebkit)
+                                                      )
+                                    )))
+
+      (defun compile-string-qtwebkit ()
+        "Generates compile string for compiling CMake project in debug mode"
+        (let* ((current-dir (file-name-directory
+                             (or (buffer-file-name (current-buffer)) default-directory)))
+               (prj (ede-current-project current-dir))
+               (root-dir (ede-project-root-directory prj))
+               (subdir "")
+               )
+          (when (string-match root-dir current-dir)
+            (setf subdir (substring current-dir (match-end 0))))
+          (concat "cd " root-dir "; ./build.sh")
+          ))
+
+      (message "compile... done"))
