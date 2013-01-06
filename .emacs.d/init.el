@@ -794,7 +794,10 @@ vi style of % jumping to matching brace."
                        '("\\.cc\\'" flymake-clang-c++-init))
           (add-to-list 'flymake-allowed-file-name-masks
                        '("\\.h\\'" flymake-clang-c++-init))
-          (flymake-mode t)))
+          (flymake-mode t)
+          (global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
+          (global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
+          (global-set-key (kbd "C-c f d") 'flymake-display-err-menu-for-current-line)))
 
       (add-hook 'c++-mode-hook 'flymake-clang-c++-load)
 
