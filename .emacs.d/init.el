@@ -26,14 +26,14 @@
 (defvar section-hotkey t)
 (defvar section-notab t)
 (defvar section-automodehook t)
-(defvar section-cedet t)
+(defvar section-cedet nil)
 
 ;; git
 (defvar section-gitemacs nil)
 (defvar section-magit t)
 (defvar section-gtags t)
 
-(defvar section-flymake nil)
+(defvar section-flymake t)
 (defvar section-w3m nil)
 (defvar section-anything nil)
 (defvar section-ido t)
@@ -188,6 +188,20 @@ vi style of % jumping to matching brace."
       (require 'gdict)
       (require 'json)
       (global-set-key (kbd "C-c g d") 'gdict)
+
+      ;; getting git root dir
+      ;; http://blog.uberweiss.net/2009/11/scoping-emacs-to-a-git-root-directory.html
+      (defun my-git-root ()
+        (if buffer-file-name
+            (let* ((current-directory (file-name-directory buffer-file-name))
+                   (git-directory (concat current-directory ".git")))
+              (while (and
+                      current-directory
+                      (not (file-exists-p git-directory)))
+                (setq current-directory (file-name-directory (substring current-directory 0 -1)))
+                (setq git-directory (concat current-directory ".git")))
+              current-directory)))
+
       (message "General... done"))
 
 ;; **
@@ -656,6 +670,7 @@ vi style of % jumping to matching brace."
 
 (when section-compile (message "compile...")
       ;; FIXME: requires cedet(ede)
+      (global-ede-mode t)
 
       (defun alexott/gen-cmake-debug-compile-string ()
         "Generates compile string for compiling CMake project in debug mode"
@@ -680,7 +695,7 @@ vi style of % jumping to matching brace."
                )
           (when (string-match root-dir current-dir)
             (setf subdir (substring current-dir (match-end 0))))
-          (concat "cd " root-dir "; make -j8")
+          (concat "cd " root-dir "; make -j")
           ))
 
       (defun alexott/ede-get-local-var (fname var)
@@ -752,3 +767,35 @@ vi style of % jumping to matching brace."
           ))
 
       (message "compile... done"))
+
+(when section-flymake (message "flymake...")
+      (require 'flymake)
+      (require 'flymake-cursor)
+
+      (defun flymake-clang-c++-init ()
+        (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                           'flymake-create-temp-inplace))
+               (local-file (file-relative-name
+                            temp-file
+                            (file-name-directory buffer-file-name)))
+               (git-root-dir (my-git-root)))
+          (if (file-exists-p (concat 
+                              git-root-dir "Tools/Scripts/check-webkit-style"))
+              (list "bash" (list "flymake-check-webkit-style.sh" git-root-dir local-file))
+            (list "clang++" (list "-fsyntax-only" "-fno-color-diagnostics" local-file)))))
+
+      (defun flymake-clang-c++-load ()
+        (interactive)
+        (message "hello")
+        (unless (eq buffer-file-name nil)
+          (add-to-list 'flymake-allowed-file-name-masks
+                       '("\\.cpp\\'" flymake-clang-c++-init))
+          (add-to-list 'flymake-allowed-file-name-masks
+                       '("\\.cc\\'" flymake-clang-c++-init))
+          (add-to-list 'flymake-allowed-file-name-masks
+                       '("\\.h\\'" flymake-clang-c++-init))
+          (flymake-mode t)))
+
+      (add-hook 'c++-mode-hook 'flymake-clang-c++-load)
+
+      (message "flymake... done"))
