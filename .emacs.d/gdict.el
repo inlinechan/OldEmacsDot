@@ -26,11 +26,15 @@
 ;;; Code:
 
 (require 'pos-tip)
+(require 'popup)
 
 (defvar gdict-show-in-echo t
   "Enable showing resulting text in echo area.")
 
-(defvar gdict-show-in-tooltip t
+(defvar gdict-show-in-popup t
+  "Enable showing resulting text in popup.")
+
+(defvar gdict-show-in-tooltip nil
   "Enable showing resulting text in tooltip.")
 
 (defvar gdict-tooltip-width 50
@@ -109,6 +113,10 @@
 
   (if gdict-show-in-echo
       (message "%s" text))
+
+  (if gdict-show-in-popup
+      (popup-tip text))
+
   (if (and gdict-show-in-tooltip (display-graphic-p))
       (and
        (setq box-text (mapconcat 'identity (pos-tip-split-string text gdict-tooltip-width) "\n"))
