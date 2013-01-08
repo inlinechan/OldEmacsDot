@@ -383,16 +383,19 @@ are the string substitutions (see `format')."
 
 (defun flymake-get-file-name-mode-and-masks (file-name)
   "Return the corresponding entry from `flymake-allowed-file-name-masks'."
-  (unless (stringp file-name)
-    (error "Invalid file-name"))
-  (let ((fnm flymake-allowed-file-name-masks)
-        (mode-and-masks  nil))
-    (while (and (not mode-and-masks) fnm)
-      (if (string-match (car (car fnm)) file-name)
-          (setq mode-and-masks (cdr (car fnm))))
-      (setq fnm (cdr fnm)))
-    (flymake-log 3 "file %s, init=%s" file-name (car mode-and-masks))
-    mode-and-masks))
+  ;; could be nil when ediff's control buffer
+  (if (not file-name)
+      (setq fnm nil)
+    (unless (stringp file-name)
+      (error "Invalid file-name"))
+    (let ((fnm flymake-allowed-file-name-masks)
+          (mode-and-masks  nil))
+      (while (and (not mode-and-masks) fnm)
+        (if (string-match (car (car fnm)) file-name)
+            (setq mode-and-masks (cdr (car fnm))))
+        (setq fnm (cdr fnm)))
+      (flymake-log 3 "file %s, init=%s" file-name (car mode-and-masks))
+      mode-and-masks)))
 
 (defun flymake-can-syntax-check-file (file-name)
   "Determine whether we can syntax check FILE-NAME.
