@@ -374,6 +374,14 @@ vi style of % jumping to matching brace."
       (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
       (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
       (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
+
+      ;; c++-mode
+      (setq auto-mode-alist
+            (append
+             '(("\\.h"      . makefile-mode)
+               ("Android.mk" . makefile-mode))
+             auto-mode-alist))
+
       (message "automodehook..."))
 
 (when section-cedet (message "cedet...")
