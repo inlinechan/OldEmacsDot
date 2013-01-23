@@ -378,8 +378,7 @@ vi style of % jumping to matching brace."
       ;; c++-mode
       (setq auto-mode-alist
             (append
-             '(("\\.h"      . makefile-mode)
-               ("Android.mk" . makefile-mode))
+             '(("\\.h"      . c++-mode))
              auto-mode-alist))
 
       (message "automodehook..."))
