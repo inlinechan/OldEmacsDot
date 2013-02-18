@@ -202,6 +202,10 @@ vi style of % jumping to matching brace."
                 (setq git-directory (concat current-directory ".git")))
               current-directory)))
 
+      ;; blank-mode
+      (require 'blank-mode)
+      (global-set-key (kbd "C-c b") 'blank-mode)
+
       (message "General... done"))
 
 ;; **
