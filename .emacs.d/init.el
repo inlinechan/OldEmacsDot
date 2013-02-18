@@ -284,7 +284,7 @@ vi style of % jumping to matching brace."
 ;; **
 (when section-hotkey (message "hotkey...")
       ;;(global-set-key (kbd "C-c y") 'clipboard-yank)
-      (global-set-key (kbd "C-c c") 'compile)    
+      (global-set-key (kbd "C-c c") 'compile)
       (global-set-key (kbd "C-c r y") 'comment-region)
       (global-set-key (kbd "C-c r u") 'uncomment-region)
       (global-set-key (kbd "M-g") 'goto-line)
@@ -301,7 +301,7 @@ vi style of % jumping to matching brace."
 
       ;; find from current dir
       (global-set-key (kbd "C-c C-g") 'find-name-dired)
-      ;; ask dir to find before 
+      ;; ask dir to find before
       (global-set-key (kbd "C-c C-h") 'find-grep-dired)
       (global-set-key (kbd "C-c g g") 'grep-find)
 
@@ -356,14 +356,14 @@ vi style of % jumping to matching brace."
 (when section-automodehook (message "automodehook...")
       ;; css-mode
       (autoload 'css-mode "css-mode-simple")
-      (setq auto-mode-alist       
+      (setq auto-mode-alist
             (cons '("\\.css\\'" . css-mode) auto-mode-alist))
 
       ;; javascirpt-mode
       ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
       ;; (autoload 'javascript-mode "javascript" nil t)
       ;; (autoload 'javascript-mode "javascript-mode")
-      ;; (setq auto-mode-alist       
+      ;; (setq auto-mode-alist
       ;;      (cons '("\\.js\\'" . javascript-mode) auto-mode-alist))
 
       ;; js2 mode
@@ -384,7 +384,7 @@ vi style of % jumping to matching brace."
                ("Android.mk" . makefile-mode))
              auto-mode-alist))
 
-      ;; (setq auto-mode-alist       
+      ;; (setq auto-mode-alist
       ;;    (cons '("\\.min\\'" . makefile-mode) auto-mode-alist)
       ;;    (cons '("\\.mak\\'" . makefile-mode) auto-mode-alist)
       ;;    (cons '("\\.make\\'" . makefile-mode) auto-mode-alist))
@@ -604,13 +604,13 @@ vi style of % jumping to matching brace."
       ;; get rid of `find-file-read-only' and replace it with something
       ;; more useful.
       (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
-      
+
       ;; enable recent files mode.
       (recentf-mode t)
-      
+
       ;;; 50 files ought to be enough.
       (setq recentf-max-saved-items 50)
-      
+
       (defun ido-recentf-open ()
         "Use `ido-completing-read' to \\[find-file] a recent file"
         (interactive)
@@ -634,7 +634,7 @@ vi style of % jumping to matching brace."
       (setq smtpmail-starttls-credentials
             '(("lgekrhqmh01.lge.com" 25 "~/.my_smtp_tls.key" "~/.my_smtp_tls.cert")))
       (message "smtp... done"))
-      
+
 (when section-dot (message "dot...")
       (load-file "~/.emacs.d/graphviz-dot-mode.el")
       (message "dot... done"))
