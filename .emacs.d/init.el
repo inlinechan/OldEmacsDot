@@ -206,6 +206,22 @@ vi style of % jumping to matching brace."
       (require 'blank-mode)
       (global-set-key (kbd "C-c b") 'blank-mode)
 
+      ;; Go to the line of the file easily especially in gdb call stack.
+      ;; /etc/passwd:10
+      (defun find-file-at-point-with-line()
+        "if file has an attached line num goto that line, ie boom.rb:12"
+        (interactive)
+        (setq line-num 0)
+        (save-excursion
+          (search-forward-regexp "[^ ]:" (point-max) t)
+          (if (looking-at "[0-9]+")
+              (setq line-num (string-to-number (buffer-substring (match-beginning 0) (match-end 0))))))
+        (find-file-at-point)
+        (if (not (equal line-num 0))
+            (goto-line line-num)))
+
+      (global-set-key (kbd "C-c <return>") 'find-file-at-point-with-line)
+
       (message "General... done"))
 
 ;; **
