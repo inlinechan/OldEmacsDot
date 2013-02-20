@@ -220,7 +220,7 @@ vi style of % jumping to matching brace."
         (if (not (equal line-num 0))
             (goto-line line-num)))
 
-      (global-set-key (kbd "C-c <return>") 'find-file-at-point-with-line)
+      (global-set-key (kbd "C-<return>") 'find-file-at-point-with-line)
 
       (message "General... done"))
 
@@ -398,7 +398,7 @@ vi style of % jumping to matching brace."
       ;; c++-mode
       (setq auto-mode-alist
             (append
-             '(("\\.h"      . c++-mode))
+             '(("\\.h$"      . c++-mode))
              auto-mode-alist))
 
       (message "automodehook..."))
@@ -826,11 +826,11 @@ vi style of % jumping to matching brace."
         ;; (unless (or (eq buffer-file-name nil)
         ;;             (not (string-match "\.cpp$" buffer-file-name)))
           (add-to-list 'flymake-allowed-file-name-masks
-                       '("\\.cpp\\'" flymake-clang-c++-init))
+                       '("\\.cpp" flymake-clang-c++-init))
           (add-to-list 'flymake-allowed-file-name-masks
-                       '("\\.cc\\'" flymake-clang-c++-init))
+                       '("\\.cc" flymake-clang-c++-init))
           (add-to-list 'flymake-allowed-file-name-masks
-                       '("\\.h\\'" flymake-clang-c++-init))
+                       '("\\.h" flymake-clang-c++-init))
           (flymake-mode t)
           (global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
           (global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
